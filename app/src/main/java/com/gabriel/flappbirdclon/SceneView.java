@@ -31,6 +31,8 @@ public class SceneView extends View {
     private int mViewWidth;
 
     private Sprite sprite;
+    Rect src;
+    Rect dst;
 
 
     public SceneView(Context context) {
@@ -62,28 +64,14 @@ public class SceneView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-     //**/   super.onDraw(canvas);
 
 
 
-//      setting up the backgorund
-//        d.draw(canvas);
-
-
-        Rect src = new Rect(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
-        Rect dst = new Rect(0, 0, getRight(), getBottom());
-//        canvas.drawBitmap(bmp, src, dst, null);
 
         canvas.drawBitmap(bgBitmap,src, dst,null);
 
-
         sprite.draw(canvas);
 
-
-//        canvas.drawBitmap(spritesBitmap, frames[naiveFrameNam], dst0, null);
-
-
-//        postInvalidateDelayed(60);
         postInvalidateOnAnimation();
     }
 
@@ -93,10 +81,7 @@ public class SceneView extends View {
         spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.running_grant);
         sprite = new Sprite(this,spritesBitmap);
 
-//        dst0 = new RectF(frames[0]);
-//        dst0.offset(10, 10); // like translate for canvas
 
-//        prepareCharacter();
     }
 
     private void createBackgroundImage(int w, int h) {
@@ -107,32 +92,9 @@ public class SceneView extends View {
         }
 
         bgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+        src = new Rect(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
+        dst = new Rect(0, 0, getRight(), getBottom());
 
-    }
-
-
-    private void prepareCharacter() {
-
-
-
-        spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.running_grant);
-
-
-        // setup the rects
-        mCharWidth = (spritesBitmap.getWidth() - 64) / 12;
-        mCharHeight = (spritesBitmap.getHeight() - 292) / 6;
-
-
-        int i = 0; // rect index
-        for (int y = 0; y < 6; y++) { // row
-            for (int x = 0; x < 12; x++) { // column
-                frames[i] = new Rect(x * mCharWidth, y * mCharHeight, (x + 1) * mCharWidth, (y + 1) * mCharHeight);
-                i++;
-                if (i >= NUM_FRAMES) {
-                    break;
-                }
-            }
-        }
     }
 
 
@@ -167,6 +129,7 @@ public class SceneView extends View {
                 xSpeed = 5;
             }
             x = x + xSpeed;
+//            y = y + xSpeed;
 
             currentFrame = (currentFrame + 1) % BMP_COLUMNS;
         }

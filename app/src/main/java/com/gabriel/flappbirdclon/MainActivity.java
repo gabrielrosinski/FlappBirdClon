@@ -1,18 +1,18 @@
 package com.gabriel.flappbirdclon;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
+import com.gabriel.flappbirdclon.Workers.Utillity;
+
+import SharedUtils.AsyncHandler;
+import SharedUtils.Util;
+
 public class MainActivity extends AppCompatActivity {
-
-
 
 
     @Override
@@ -20,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Utillity.getInstance(getApplicationContext());
+
         Utillity.hideSystemUI(this);
+
+        Utillity.toggleMusic();
 
 
         Button startGameBtn = findViewById(R.id.startBtn);
-
 
         startGameBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -38,6 +41,39 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
+
+
+
+
+        Button settingsBtn = findViewById(R.id.settingsBtn);
+
+        settingsBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+                startActivity(intent, options.toBundle());
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Utillity.toggleMusic();
+
+    }
+
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Utillity.toggleMusic();
+
     }
 
 
