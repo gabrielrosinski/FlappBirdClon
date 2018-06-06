@@ -76,14 +76,16 @@ public class Utillity {
         soundEffectsUtil.play(id);
     }
 
-    public static void toggleSFC(int streamID, boolean toggle){
+    public  void toggleSFX(int streamID, boolean toggle){
         if (toggle){
             soundEffectsUtil.soundPool.setVolume(streamID, 1f, 1f);
         }else{
             soundEffectsUtil.soundPool.setVolume(streamID, 0f, 0f);
         }
-
     }
+//    public static void muteSFX(){
+//        soundEffectsUtil.soundPool.set
+//    }
 
     public static SharedPreferences getSharedPref(){
         return sharedPreferences;

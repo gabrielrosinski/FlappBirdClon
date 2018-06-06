@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.SoundPool;
 import android.util.SparseIntArray;
 
+import com.gabriel.flappbirdclon.R;
+
 import SharedUtils.AsyncHandler;
 import SharedUtils.compat.Compat;
 
@@ -57,7 +59,7 @@ public class SFxRunnable implements Runnable {
 //        soundsMap.put(R.raw.doorbell_end, soundPool.load(appContext, R.raw.doorbell_end, 1));
 //        soundsMap.put(R.raw.door_knock, soundPool.load(appContext, R.raw.door_knock, 1));
 //        soundsMap.put(R.raw.door_lock, soundPool.load(appContext, R.raw.door_lock, 1));
-
+        soundsMap.put(R.raw.door_lock, soundPool.load(appContext, R.raw.door_lock,1));
 
     }
 
@@ -67,5 +69,7 @@ public class SFxRunnable implements Runnable {
         }
         soundPool.play(soundsMap.get(soundKey), 1.0f, 1.0f, 1, 0, 1.0f);
     }
+
+
 
 }

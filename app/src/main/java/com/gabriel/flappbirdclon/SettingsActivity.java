@@ -14,11 +14,16 @@ import android.widget.Toast;
 
 import com.gabriel.flappbirdclon.Workers.Utillity;
 
+import SharedUtils.Util;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
     private static SeekBar volumeSeekBar;
     private static ImageView muteImage;
+
+    private boolean isSFXOn = false;
+    private CheckBox sfxCheckBox;
 
 
 
@@ -33,9 +38,15 @@ public class SettingsActivity extends AppCompatActivity {
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
 
         SharedPreferences pref=  Utillity.getSharedPref();
-        int volume = pref.getInt("bgVoluem",0);
+        int volume = pref.getInt("bgVoluem",1);
 
         volumeSeekBar.setProgress(volume);
+
+
+        isSFXOn = pref.getBoolean("sfxOn",false);
+        sfxCheckBox = findViewById(R.id.sfxCheckBox);
+        sfxCheckBox.setChecked(isSFXOn);
+
 
 
         muteImage = findViewById(R.id.muteImage);
@@ -107,14 +118,21 @@ public class SettingsActivity extends AppCompatActivity {
 
         CheckBox checkBox = (CheckBox) view;
 
-        if (checkBox.isChecked()){
-            Utillity.toggleMusic();//.toggleSFC();
-        }
+        isSFXOn = checkBox.isChecked();
+
+        SharedPreferences.Editor prefEdit = Utillity.getSharedPrefEdit();
+        prefEdit.putBoolean("sfxOn", isSFXOn);
+        prefEdit.apply();
+
     }
 
     public void sfxTestClicked(View v){
 
-        Button testBtn = findViewById(R.id.sfxTestBTN);
+//        Button testBtn = findViewById(R.id.sfxTestBTN);
+
+        if (isSFXOn){
+            Utillity.playSFXbyID(R.raw.door_lock);
+        }
 
     }
 
