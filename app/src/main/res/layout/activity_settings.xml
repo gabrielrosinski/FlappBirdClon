@@ -7,7 +7,7 @@
     android:background="#6d6d6d">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/sfxTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,13 +22,10 @@
         android:layout_width="232dp"
         android:layout_height="37dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="112dp"
         android:max="100"
-        android:progress="1"
+        android:progress="50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.363"
-        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -41,4 +38,28 @@
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/sfxCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:onClick="sfxClicked"
+        android:text="On / Off"
+        app:layout_constraintStart_toStartOf="@+id/volumeSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/volumeSeekBar" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="SFX:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sfxTextView" />
+
+
 </android.support.constraint.ConstraintLayout>

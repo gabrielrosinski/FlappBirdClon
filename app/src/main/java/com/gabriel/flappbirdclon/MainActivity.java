@@ -9,8 +9,6 @@ import android.widget.Button;
 
 import com.gabriel.flappbirdclon.Workers.Utillity;
 
-import SharedUtils.AsyncHandler;
-import SharedUtils.Util;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
         Utillity.hideSystemUI(this);
 
-        Utillity.toggleMusic();
+        if (!Utillity.isBackgroundMusicON()){
+            Utillity.toggleMusic();
+        }
+
 
 
         Button startGameBtn = findViewById(R.id.startBtn);
@@ -62,9 +63,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+//        Utillity.toggleMusic();
+
+    }
+
+    @Override
     protected void onRestart(){
         super.onRestart();
-        Utillity.toggleMusic();
+//        Utillity.toggleMusic();
+        Utillity.hideSystemUI(this);
 
     }
 
@@ -72,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        Utillity.toggleMusic();
-
+//        Utillity.toggleMusic();
     }
 
 

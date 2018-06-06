@@ -10,6 +10,8 @@ import SharedUtils.AsyncHandler;
 
 public class Utillity {
 
+    private final static int MAX_VOLUME = 100;
+
     private static Utillity myObj;
     private static Context context;
 
@@ -54,11 +56,26 @@ public class Utillity {
         AsyncHandler.post(musicPlayer);
     }
 
+    public static boolean isBackgroundMusicON(){
+        return musicPlayer.isMusicIsPlaying();
+    }
+
     public static void setBackgroundMusicVolume(int volume){
-        musicPlayer.mPlayer.setVolume(volume, volume);
+
+        final float soundVolume = (float) (1 - (Math.log(MAX_VOLUME - volume) / Math.log(MAX_VOLUME)));
+        musicPlayer.mPlayer.setVolume(soundVolume, soundVolume);
     }
 
     public static void playSFXbyID(int id){
         soundEffectsUtil.play(id);
+    }
+
+    public static void toggleSFC(int streamID, boolean toggle){
+        if (toggle){
+            soundEffectsUtil.soundPool.setVolume(streamID, 1f, 1f);
+        }else{
+            soundEffectsUtil.soundPool.setVolume(streamID, 0f, 0f);
+        }
+
     }
 }

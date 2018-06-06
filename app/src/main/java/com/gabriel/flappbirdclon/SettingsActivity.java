@@ -1,12 +1,16 @@
 package com.gabriel.flappbirdclon;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 
 import com.gabriel.flappbirdclon.Workers.Utillity;
 
-import SharedUtils.Util;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -20,11 +24,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         Utillity.hideSystemUI(this);
 
-        Utillity.toggleMusic();
+//        Utillity.toggleMusic();
 
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
-//        volumeSeekBar.setMax(100);
-//        volumeSeekBar.setProgress(10);
 
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -46,5 +48,36 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        Button backBtn = findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(SettingsActivity.this, R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+                startActivity(intent, options.toBundle());
+            }
+        });
     }
+
+
+
+    public void sfxClicked(View view){
+
+        CheckBox checkBox = (CheckBox) view;
+
+        if (checkBox.isChecked()){
+            Utillity.toggleMusic();//.toggleSFC();
+        }
+    }
+
+
+
 }
