@@ -13,20 +13,21 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="112dp"
         android:text="Volume:"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/volumeSeekBar"
-        android:layout_width="232dp"
+        android:layout_width="234dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="8dp"
         android:max="100"
         android:progress="50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/sfxTextView"
+        app:layout_constraintTop_toTopOf="@+id/sfxTextView" />
 
     <Button
         android:id="@+id/backBtn"
@@ -43,23 +44,34 @@
         android:id="@+id/sfxCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:checked="true"
         android:onClick="sfxClicked"
         android:text="On / Off"
         app:layout_constraintStart_toStartOf="@+id/volumeSeekBar"
-        app:layout_constraintTop_toBottomOf="@+id/volumeSeekBar" />
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="SFX:"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sfxTextView" />
+
+    <ImageView
+        android:id="@+id/muteImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/volumeSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/volumeSeekBar"
+        app:srcCompat="@android:drawable/stat_notify_call_mute" />
 
 
 </android.support.constraint.ConstraintLayout>

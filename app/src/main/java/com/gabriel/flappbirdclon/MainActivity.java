@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         Button startGameBtn = findViewById(R.id.startBtn);
 
         startGameBtn.setOnClickListener(new View.OnClickListener(){
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
-
 
 
 

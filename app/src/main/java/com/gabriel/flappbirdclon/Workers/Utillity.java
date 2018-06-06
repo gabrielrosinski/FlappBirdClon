@@ -3,6 +3,7 @@ package com.gabriel.flappbirdclon.Workers;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.AndroidException;
 import android.view.View;
 
@@ -18,6 +19,9 @@ public class Utillity {
     private static MusicRunnable musicPlayer;
     private static SFxRunnable soundEffectsUtil;
 
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor preferencesEditor;
+    private static String MY_PREFS_NAME = "birdSharedPref";
 
     public static Utillity getInstance(Context appContext){
         if(myObj == null){
@@ -25,6 +29,9 @@ public class Utillity {
             myObj = new Utillity();
 
             context = appContext;
+
+            sharedPreferences = appContext.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+            preferencesEditor = sharedPreferences.edit();
 
             if (musicPlayer == null) {
                 musicPlayer = new MusicRunnable(context);
@@ -77,5 +84,13 @@ public class Utillity {
             soundEffectsUtil.soundPool.setVolume(streamID, 0f, 0f);
         }
 
+    }
+
+    public static SharedPreferences getSharedPref(){
+        return sharedPreferences;
+    }
+
+    public static SharedPreferences.Editor getSharedPrefEdit(){
+        return preferencesEditor;
     }
 }

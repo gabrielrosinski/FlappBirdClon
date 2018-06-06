@@ -2,11 +2,13 @@ package com.gabriel.flappbirdclon;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.gabriel.flappbirdclon.Workers.Utillity;
@@ -15,6 +17,8 @@ import com.gabriel.flappbirdclon.Workers.Utillity;
 public class SettingsActivity extends AppCompatActivity {
 
     private static SeekBar volumeSeekBar;
+    private static ImageView muteImage;
+
 
 
     @Override
@@ -24,17 +28,46 @@ public class SettingsActivity extends AppCompatActivity {
 
         Utillity.hideSystemUI(this);
 
-//        Utillity.toggleMusic();
 
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
 
+        SharedPreferences pref=  Utillity.getSharedPref();
+        int volume = pref.getInt("bgVoluem",0);
+
+        volumeSeekBar.setProgress(volume);
+
+
+        muteImage = findViewById(R.id.muteImage);
+
+        if (volume != 0) {
+            muteImage.setVisibility(View.INVISIBLE);
+            Utillity.toggleMusic();
+        }else{
+            muteImage.setVisibility(View.VISIBLE);
+        }
+
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            int progress_value = 0;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                 Utillity.setBackgroundMusicVolume(progress);
+
+                Utillity.setBackgroundMusicVolume(progress);
+
+                 if (progress == 0) {
+                     muteImage.setVisibility(View.VISIBLE);
+                     Utillity.toggleMusic();
+                 }else{
+                     muteImage.setVisibility(View.INVISIBLE);
+                     if (!Utillity.isBackgroundMusicON()){
+                         Utillity.toggleMusic();
+                     }
+                 }
+
+                 //Save to pref
+                SharedPreferences.Editor prefEdit = Utillity.getSharedPrefEdit();
+                prefEdit.putInt("bgVoluem", progress);
+                prefEdit.apply();
             }
 
             @Override
