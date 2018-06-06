@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.gabriel.flappbirdclon.Workers.Utillity;
 
@@ -41,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (volume != 0) {
             muteImage.setVisibility(View.INVISIBLE);
-            Utillity.toggleMusic();
+//            Utillity.toggleMusic();
         }else{
             muteImage.setVisibility(View.VISIBLE);
         }
@@ -109,6 +110,12 @@ public class SettingsActivity extends AppCompatActivity {
         if (checkBox.isChecked()){
             Utillity.toggleMusic();//.toggleSFC();
         }
+    }
+
+    public void sfxTestClicked(View v){
+
+        Button testBtn = findViewById(R.id.sfxTestBTN);
+
     }
 
 

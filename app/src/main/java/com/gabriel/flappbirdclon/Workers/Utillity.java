@@ -35,7 +35,6 @@ public class Utillity {
 
             if (musicPlayer == null) {
                 musicPlayer = new MusicRunnable(context);
-
             }
 
             if (soundEffectsUtil == null) {

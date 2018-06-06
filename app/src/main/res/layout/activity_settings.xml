@@ -73,5 +73,16 @@
         app:layout_constraintStart_toEndOf="@+id/volumeSeekBar"
         app:srcCompat="@android:drawable/stat_notify_call_mute" />
 
+    <Button
+        android:id="@+id/sfxTestBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="39dp"
+        android:onClick="sfxTestClicked"
+        android:text="SFX TEST"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sfxCheckBox" />
+
 
 </android.support.constraint.ConstraintLayout>
