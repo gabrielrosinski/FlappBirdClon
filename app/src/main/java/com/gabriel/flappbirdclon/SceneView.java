@@ -21,8 +21,6 @@ public class SceneView extends View {
 
     //Bird sprite
     private static final int NUM_FRAMES = 64;
-    int mCharHeight;
-    int mCharWidth;
     Bitmap spritesBitmap;
     Bitmap bgBitmap;
     Rect[] frames = new Rect[NUM_FRAMES];
@@ -54,8 +52,6 @@ public class SceneView extends View {
 
 
     private void init(){
-
-//        spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable);
         spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.birdmap);
         sprite = new Sprite(this,spritesBitmap);
     }
@@ -97,22 +93,23 @@ public class SceneView extends View {
 
 
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN ||
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {// ||
 //                event.getAction() == MotionEvent.ACTION_MOVE) {
 //            touchedX = event.getX();
 //            touchedY = event.getY();
 //            isTouched = true;
-//            postInvalidateOnAnimation();
-//            return true;
-//        } else {
+            sprite.spriteTouched();
+            postInvalidateOnAnimation();
+            return true;
+        } else {
 //            isTouched = false;
-//        }
-//        // will trigger a new call to onDraw()
-//        postInvalidateOnAnimation();
-//        return super.onTouchEvent(event);
-//    }
+        }
+        // will trigger a new call to onDraw()
+        postInvalidateOnAnimation();
+        return super.onTouchEvent(event);
+    }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +120,7 @@ public class SceneView extends View {
 
         protected static final int GRAVITY = 1;
         protected static final int MAX_DROP_SPEED = 12;
+        protected static final int MAX_JUMP_SPEED = -12;
         protected int acceleration = GRAVITY;
         protected int verticalSpeed;
 
@@ -138,6 +136,7 @@ public class SceneView extends View {
         private int ySpeed = 5;
         private SceneView sceneView;
         private boolean freshScene = true;
+        private boolean spriteTouched = false;
 
 
         private static final int BMP_ROWS = 3;
@@ -157,6 +156,10 @@ public class SceneView extends View {
 
         }
 
+        public void spriteTouched(){
+            this.spriteTouched = true;
+        }
+
 
         private void update() {
             //this is to init the bird in the first position
@@ -174,14 +177,35 @@ public class SceneView extends View {
 //            }
 //            x = x + xSpeed;
 
-            // now calculate the new speed
-            acceleration += GRAVITY; // always applying gravity to current acceleration
-            verticalSpeed += acceleration; // always applying the current acceleration tp the current speed
-            verticalSpeed = Math.min(verticalSpeed, MAX_DROP_SPEED); // but capping it to a terminal velocity (science bitch)
 
-            if (y > sceneView.getBottom() - height - ySpeed){
+            if (acceleration < MAX_DROP_SPEED){
+                // now calculate the new speed
+                acceleration += GRAVITY; // always applying gravity to current acceleration
+            }
+
+
+
+
+//            verticalSpeed += acceleration; // always applying the current acceleration tp the current speed
+//            verticalSpeed = Math.min(verticalSpeed, MAX_DROP_SPEED); // but capping it to a terminal velocity (science bitch)
+
+            if (y > sceneView.getBottom() || y < sceneView.getTop()){
+                //TODO: stop game - lose
                 y = (sceneView.getHeight() / 2) - (height / 2);
             }
+
+
+            if (spriteTouched){
+
+                if (acceleration > -15){
+                    acceleration = -7;
+                }
+
+                spriteTouched = false;
+            }
+
+            verticalSpeed += acceleration; // always applying the current acceleration tp the current speed
+            verticalSpeed = Math.min(verticalSpeed, MAX_DROP_SPEED); // but capping it to a terminal velocity (science bitch)
             y = y + verticalSpeed;
 
             currentFrame = (currentFrame + 1) % BMP_COLUMNS;
@@ -200,6 +224,15 @@ public class SceneView extends View {
 
     }
 
+
+
+    /// draw from an array
+    /*
+
+
+
+
+     */
 
 
 
