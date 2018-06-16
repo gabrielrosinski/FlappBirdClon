@@ -36,6 +36,7 @@ public class SceneView extends View {
     Rect dst;
 
 
+
     public SceneView(Context context) {
         super(context);
         init();
@@ -54,7 +55,8 @@ public class SceneView extends View {
 
     private void init(){
 
-        spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.running_grant);
+//        spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable);
+        spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.birdmap);
         sprite = new Sprite(this,spritesBitmap);
     }
 
@@ -128,8 +130,8 @@ public class SceneView extends View {
         private int currentFrame = 0;
         private int width;
         private int height;
-        private static final int BMP_ROWS = 6;
-        private static final int BMP_COLUMNS = 12;
+//        private static final int BMP_ROWS = 6;
+//        private static final int BMP_COLUMNS = 12;
         private int x = 0;
         private int y = 0;
         private int xSpeed = 5;
@@ -138,11 +140,20 @@ public class SceneView extends View {
         private boolean freshScene = true;
 
 
+        private static final int BMP_ROWS = 3;
+        private static final int BMP_COLUMNS = 3;
+
+
+
         public Sprite(SceneView sceneView, Bitmap bitmap) {
             this.sceneView = sceneView;
             this.bitmap = bitmap;
-            this.width = (bitmap.getWidth() - 64) / 12;
-            this.height = (bitmap.getHeight() - 292) / 6;
+//            this.width = (bitmap.getWidth() - 64) / 12;
+//            this.height = (bitmap.getHeight() - 292) / 6;
+
+
+            this.width = (bitmap.getWidth() ) / BMP_COLUMNS;
+            this.height = (bitmap.getHeight() ) / BMP_ROWS;
 
         }
 
@@ -150,7 +161,7 @@ public class SceneView extends View {
         private void update() {
             //this is to init the bird in the first position
             if (freshScene){
-                x = (sceneView.getWidth() / 2) - (width / 2);
+                x = (sceneView.getWidth() / 2) - (width / 4);
                 y = (sceneView.getHeight() / 2) - (height / 2);
                 freshScene = false;
             }
@@ -180,15 +191,12 @@ public class SceneView extends View {
 
             update();
 
-
             int srcX = currentFrame * width;
             int srcY = 1 * height;
             Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-            Rect dst = new Rect(x, y, x + width, y + height);
+            Rect dst = new Rect(x, y, (x + width / 2) , (y + height / 2));
             canvas.drawBitmap(bitmap, src, dst, null);
         }
-
-
 
     }
 
