@@ -23,14 +23,18 @@ public class Pipe {
     private SceneView sceneView;
     public PipeType pipeType = PipeType.UPPER;
     private int space = 350;
+    private int pipeWidth = 170;
 
 
     public Pipe(SceneView sceneView, Bitmap bitmap) {
         this.sceneView = sceneView;
         this.bitmap = bitmap;
 
-        this.width = bitmap.getWidth();
+        this.width =  pipeWidth;
         this.height = bitmap.getHeight();
+
+
+        this.x = sceneView.getRight();
     }
 
 
@@ -43,6 +47,12 @@ public class Pipe {
 //        }
 //        x = x + xSpeed;
 
+        if (x < sceneView.getLeft() - width) {
+            this.x = sceneView.getRight();
+        }
+        xSpeed = -5;
+        x = x + xSpeed;
+
     }
 
     public void draw(Canvas canvas) {
@@ -52,9 +62,10 @@ public class Pipe {
         Rect src = new Rect(srcX, srcY, bitmap.getWidth(), bitmap.getHeight());
         Rect dst;
         if(this.pipeType == PipeType.UPPER){
-            dst = new Rect(200, 0, sceneView.getWidth() / 7 + 200 , sceneView.getBottom() / 2);
+//            dst = new Rect(200, 0, sceneView.getWidth() / 7 + 200 , sceneView.getBottom() / 2);
+            dst = new Rect(this.x, 0, x + this.width , sceneView.getBottom() / 2);
         }else {
-            dst = new Rect(200, sceneView.getBottom() / 2 + space, sceneView.getWidth() / 7 + 200 , sceneView.getBottom());
+            dst = new Rect(this.x, sceneView.getBottom() / 2 + space, x + this.width , sceneView.getBottom());
         }
 
 
