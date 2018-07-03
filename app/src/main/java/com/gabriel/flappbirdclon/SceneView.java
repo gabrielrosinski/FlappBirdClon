@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.nio.charset.CharacterCodingException;
+import java.util.Random;
 
 public class SceneView extends View {
 
@@ -36,8 +37,14 @@ public class SceneView extends View {
     private Pipe bottomPipe;
     Rect src;
     Rect dst;
+    Random randomGenerator;
+    float maxTubeOffest;
 
-//    Pipe[] pipes = new Pipe[];
+    int numberOfTubes = 4;
+    int distanceBetweenTubes;
+
+    Pipe[] upperPipes = new Pipe[numberOfTubes];
+    Pipe[] bottomPipes = new Pipe[numberOfTubes];
 
 
 
@@ -62,13 +69,14 @@ public class SceneView extends View {
         sprite = new Sprite(this,spritesBitmap);
 
         topPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.toptube);
-        bottomPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.toptube); //TODO: change this bottomtube
+        bottomPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bottomtube); //TODO: change this bottomtube
 
-        topPipe = new Pipe(this,topPipeBitmap);
-        topPipe.pipeType = Pipe.PipeType.UPPER;
+//        distanceBetweenTubes = this.getWidth() / 2;
 
-        bottomPipe = new Pipe(this,bottomPipeBitmap);
-        bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
+        randomGenerator = new Random();
+
+
+        tubeCreator();
     }
 
     private void createBackgroundImage(int w, int h) {
@@ -84,6 +92,7 @@ public class SceneView extends View {
 
     }
 
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         this.mViewWidth = w;
@@ -94,6 +103,8 @@ public class SceneView extends View {
 
     }
 
+
+
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -101,9 +112,14 @@ public class SceneView extends View {
 
         sprite.draw(canvas);
 
-        topPipe.draw(canvas);
+//        topPipe.draw(canvas);
+//        bottomPipe.draw(canvas);
 
-        bottomPipe.draw(canvas);
+        for (int i = 0; i < numberOfTubes; i++) {
+            upperPipes[i].draw(canvas);
+            bottomPipes[i].draw(canvas);
+        }
+
 
         //TODO: add collision detection later for the sprite
 
@@ -132,6 +148,41 @@ public class SceneView extends View {
         return super.onTouchEvent(event);
     }
 
+
+
+    private void tubeCreator(){
+
+        float tubeOffset;
+        //maxTubeOffest = this.getBottom() / 2 - topPipe.space / 2 - 100;
+
+
+
+        for (int i = 0; i < numberOfTubes; i++){
+            Pipe topPipe = new Pipe(this,topPipeBitmap);
+//        topPipe = new Pipe(this,topPipeBitmap);
+//            topPipe.x = this.getRight() + i * distanceBetweenTubes * 100;
+//            topPipe.distanceFromOtherTube = this.getWidth() + i * (this.getWidth() / 2);
+            topPipe.pipeNum = i;
+            topPipe.pipeType = Pipe.PipeType.UPPER;
+
+            tubeOffset = (randomGenerator.nextFloat() - 0.5f) * (this.getHeight() - topPipe.space);
+
+            topPipe.tubeOffest = tubeOffset;
+            upperPipes[i] = topPipe;
+
+
+            Pipe bottomPipe = new Pipe(this,bottomPipeBitmap); //TODO: change this asset to bottom tube
+
+//        bottomPipe = new Pipe(this,topPipeBitmap); //TODO: change this asset to bottom tube
+//            bottomPipe.x = this.getWidth() / 2 + i * distanceBetweenTubes; //this.getRight() + i * distanceBetweenTubes * 100;
+//            bottomPipe.distanceFromOtherTube = this.getWidth() + i * (this.getWidth() / 2);
+            bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
+            bottomPipe.tubeOffest = tubeOffset;
+            bottomPipe.pipeNum = i;
+            bottomPipes[i] = bottomPipe;
+        }
+
+    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
