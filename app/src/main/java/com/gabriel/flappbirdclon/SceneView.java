@@ -23,6 +23,8 @@ public class SceneView extends View {
     private static final int NUM_FRAMES = 64;
     Bitmap spritesBitmap;
     Bitmap bgBitmap;
+    Bitmap topPipeBitmap;
+    Bitmap bottomPipeBitmap;
     Rect[] frames = new Rect[NUM_FRAMES];
     int naiveFrameNam;
     RectF dst0 = new RectF();
@@ -30,8 +32,12 @@ public class SceneView extends View {
     private int mViewWidth;
 
     private Sprite sprite;
+    private Pipe topPipe;
+    private Pipe bottomPipe;
     Rect src;
     Rect dst;
+
+//    Pipe[] pipes = new Pipe[];
 
 
 
@@ -54,6 +60,15 @@ public class SceneView extends View {
     private void init(){
         spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.birdmap);
         sprite = new Sprite(this,spritesBitmap);
+
+        topPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.toptube);
+        bottomPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.toptube); //TODO: change this bottomtube
+
+        topPipe = new Pipe(this,topPipeBitmap);
+        topPipe.pipeType = Pipe.PipeType.UPPER;
+
+        bottomPipe = new Pipe(this,bottomPipeBitmap);
+        bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
     }
 
     private void createBackgroundImage(int w, int h) {
@@ -86,11 +101,17 @@ public class SceneView extends View {
 
         sprite.draw(canvas);
 
+        topPipe.draw(canvas);
+
+        bottomPipe.draw(canvas);
+
+        //TODO: add collision detection later for the sprite
+
+
+
+
         postInvalidateOnAnimation();
     }
-
-
-
 
 
     @Override
@@ -223,17 +244,6 @@ public class SceneView extends View {
         }
 
     }
-
-
-
-    /// draw from an array
-    /*
-
-
-
-
-     */
-
 
 
 }
