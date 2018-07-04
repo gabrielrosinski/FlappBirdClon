@@ -20,17 +20,17 @@ public class Pipe {
     private int ySpeed = 5;
     private SceneView sceneView;
     public PipeType pipeType = PipeType.UPPER;
-    public int space = 200;
+    public int space = 350;
 
-    public float tubeOffest;
     private int pipeWidth = 170;
     public int pipeNum;
     public int distanceFromOtherTube;
     private Rect src;
     private Rect dst;
 
+    private float tubeOffset;
 
-    public Pipe(SceneView sceneView, Bitmap bitmap) {
+    public Pipe(SceneView sceneView, Bitmap bitmap,float randomNum) {
         this.sceneView = sceneView;
         this.bitmap = bitmap;
 
@@ -41,6 +41,9 @@ public class Pipe {
         this.height = bitmap.getHeight();
 
         this.x = sceneView.getWidth() + pipeNum * (sceneView.getWidth());//sceneView.getRight() + distanceFromOtherTube;
+
+        tubeOffset = (randomNum - 0.5f) * (sceneView.getHeight() - space - 200);
+
     }
 
 
@@ -65,9 +68,9 @@ public class Pipe {
         update();
 
         if(this.pipeType == PipeType.UPPER){
-            dst = new Rect(this.x, 0, x + this.width , sceneView.getBottom() / 2 - space + (int)tubeOffest);
+            dst = new Rect(this.x, 0, x + this.width , (sceneView.getHeight() / 2) - (space / 2) + (int)tubeOffset);
         }else {
-            dst = new Rect(this.x, sceneView.getBottom() / 2  + space + (int)tubeOffest, x + this.width , sceneView.getBottom());
+            dst = new Rect(this.x, (sceneView.getHeight() / 2)  + (space / 2) + (int)tubeOffset, x + this.width , sceneView.getBottom());
         }
 
         canvas.drawBitmap(bitmap, src, dst, null);

@@ -1,20 +1,17 @@
 package com.gabriel.flappbirdclon;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.nio.charset.CharacterCodingException;
 import java.util.Random;
 
 public class SceneView extends View {
@@ -39,7 +36,7 @@ public class SceneView extends View {
     Rect dst;
     Random randomGenerator;
     float maxTubeOffest;
-
+    float tubeOffSet;
     int numberOfTubes = 4;
     int distanceBetweenTubes;
 
@@ -152,32 +149,24 @@ public class SceneView extends View {
 
     private void tubeCreator(){
 
-        float tubeOffset;
-        //maxTubeOffest = this.getBottom() / 2 - topPipe.space / 2 - 100;
-
+        float randomNum;
 
 
         for (int i = 0; i < numberOfTubes; i++){
-            Pipe topPipe = new Pipe(this,topPipeBitmap);
+
+            randomNum = randomGenerator.nextFloat();
+
+            Pipe topPipe = new Pipe(this,topPipeBitmap, randomNum);
 //        topPipe = new Pipe(this,topPipeBitmap);
-//            topPipe.x = this.getRight() + i * distanceBetweenTubes * 100;
-//            topPipe.distanceFromOtherTube = this.getWidth() + i * (this.getWidth() / 2);
             topPipe.pipeNum = i;
             topPipe.pipeType = Pipe.PipeType.UPPER;
-
-            tubeOffset = (randomGenerator.nextFloat() - 0.5f) * (this.getHeight() - topPipe.space);
-
-            topPipe.tubeOffest = tubeOffset;
             upperPipes[i] = topPipe;
 
 
-            Pipe bottomPipe = new Pipe(this,bottomPipeBitmap); //TODO: change this asset to bottom tube
+            Pipe bottomPipe = new Pipe(this,bottomPipeBitmap, randomNum);
 
-//        bottomPipe = new Pipe(this,topPipeBitmap); //TODO: change this asset to bottom tube
-//            bottomPipe.x = this.getWidth() / 2 + i * distanceBetweenTubes; //this.getRight() + i * distanceBetweenTubes * 100;
-//            bottomPipe.distanceFromOtherTube = this.getWidth() + i * (this.getWidth() / 2);
+//        bottomPipe = new Pipe(this,topPipeBitmap);
             bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
-            bottomPipe.tubeOffest = tubeOffset;
             bottomPipe.pipeNum = i;
             bottomPipes[i] = bottomPipe;
         }
@@ -193,37 +182,28 @@ public class SceneView extends View {
         protected static final int GRAVITY = 1;
         protected static final int MAX_DROP_SPEED = 12;
         protected static final int MAX_JUMP_SPEED = -12;
-        protected int acceleration = GRAVITY;
-        protected int verticalSpeed;
+
 
         private Bitmap bitmap;
         private int currentFrame = 0;
         private int width;
         private int height;
-//        private static final int BMP_ROWS = 6;
-//        private static final int BMP_COLUMNS = 12;
         private int x = 0;
         private int y = 0;
-        private int xSpeed = 5;
-        private int ySpeed = 5;
         private SceneView sceneView;
         private boolean freshScene = true;
         private boolean spriteTouched = false;
 
-
         private static final int BMP_ROWS = 3;
         private static final int BMP_COLUMNS = 3;
-
-
-
         int velocity = 0;
+
+
+
 
         public Sprite(SceneView sceneView, Bitmap bitmap) {
             this.sceneView = sceneView;
             this.bitmap = bitmap;
-//            this.width = (bitmap.getWidth() - 64) / 12;
-//            this.height = (bitmap.getHeight() - 292) / 6;
-
 
             this.width = (bitmap.getWidth() ) / BMP_COLUMNS;
             this.height = (bitmap.getHeight() ) / BMP_ROWS;
