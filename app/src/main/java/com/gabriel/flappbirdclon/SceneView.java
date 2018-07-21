@@ -4,14 +4,20 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gabriel.flappbirdclon.Workers.Sprite;
 
@@ -40,6 +46,13 @@ public class SceneView extends View {
     Pipe[] bottomPipes = new Pipe[numberOfTubes];
     Boolean tubesCreated = false;
 
+    //Game managment
+    private int score = 0;
+    private int maxPointsToWin = 5;
+    private int scoringTube = 0;
+
+    private TextPaint scoreText;
+    private StaticLayout scoreTextStyle;
 
 
     public SceneView(Context context) {
@@ -49,6 +62,7 @@ public class SceneView extends View {
 
     public SceneView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+//        scoreTextView = (TextView) findViewById(R.id.scoreTextView);
         init();
     }
 
@@ -59,6 +73,7 @@ public class SceneView extends View {
 
 
     private void init(){
+
         spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.birdmap);
         sprite = new Sprite(this,spritesBitmap);
 
@@ -70,7 +85,11 @@ public class SceneView extends View {
         randomGenerator = new Random();
 
 
+        Log.d("SceneView", "PLAYER LOST");
+        initLabelView();
+
     }
+
 
     private void createBackgroundImage(int w, int h) {
 
@@ -93,7 +112,6 @@ public class SceneView extends View {
         createBackgroundImage(w, h);
 
         super.onSizeChanged(w, h, oldw, oldh);
-
     }
 
 
@@ -127,10 +145,55 @@ public class SceneView extends View {
            if (sprite.isCollisionDetected(bottomPipes[i])){
                 Log.d("SceneView", "PLAYER LOST");
            }
-
         }
 
+
+
+        //SCORE
+        Pipe pipe = upperPipes[scoringTube];
+        if (pipe.getPipeX() < (canvas.getWidth() / 2) - pipe.getPipeWidth()){
+
+            this.score++;
+//            this.scoreTextView.setText(this.score);
+
+            if (scoringTube < numberOfTubes - 1){
+                this.scoringTube++;
+            }else{
+                scoringTube = 0;
+            }
+        }
+
+        //Score Label
+        editScoreLabel();
+        scoreTextStyle.draw(canvas);
+
+
         postInvalidateOnAnimation();
+    }
+
+    private void initLabelView() {
+        scoreText = new TextPaint();
+        scoreText.setAntiAlias(true);
+        scoreText.setTextSize(40 * getResources().getDisplayMetrics().density);
+        scoreText.setColor(0xFF000000);
+
+        editScoreLabel();
+
+        // New API alternate
+        //
+        // StaticLayout.Builder builder = StaticLayout.Builder.obtain(mText, 0, mText.length(), mTextPaint, width)
+        //        .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+        //        .setLineSpacing(1, 0) // multiplier, add
+        //        .setIncludePad(false);
+        // mStaticLayout = builder.build();
+    }
+
+    private void editScoreLabel(){
+        // default to a single line of text
+        String scoreStr = "Score: " + String.valueOf(score);
+        int width = (int) scoreText.measureText(scoreStr);
+        scoreTextStyle = new StaticLayout(scoreStr, scoreText, (int) width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+
     }
 
 
@@ -175,12 +238,6 @@ public class SceneView extends View {
         }
 
     }
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 }

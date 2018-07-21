@@ -53,6 +53,12 @@ public class Pipe {
     public Rect getPipeRect(){
         return this.dst;
     }
+    public int getPipeX(){
+        return pipeXOffSet;
+    }
+    public int getPipeWidth(){
+        return width;
+    }
 
 
     private void update() {
