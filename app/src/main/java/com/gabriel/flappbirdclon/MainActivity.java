@@ -58,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
+
+        Button instructionBtn = findViewById(R.id.instructionBtn);
+
+        instructionBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
+
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+                startActivity(intent, options.toBundle());
+            }
+        });
     }
 
     @Override
