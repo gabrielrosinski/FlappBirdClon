@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -111,12 +112,21 @@ public class SceneView extends View {
         for (int i = 0; i < numberOfTubes; i++) {
             upperPipes[i].draw(canvas);
             bottomPipes[i].draw(canvas);
+
         }
 
 
         //TODO: add collision detection later for the sprite with pipes and floore
+        //COLISON DETECTION
+        for (int i = 0; i < numberOfTubes; i++) {
+           if (sprite.isCollisionDetected(upperPipes[i])){
+               Log.d("SceneView", "PLAYER LOST");
+           }
+           if (sprite.isCollisionDetected(bottomPipes[i])){
+                Log.d("SceneView", "PLAYER LOST");
+           }
 
-
+        }
 
         postInvalidateOnAnimation();
     }
@@ -164,6 +174,8 @@ public class SceneView extends View {
 
     }
 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -201,6 +213,49 @@ public class SceneView extends View {
 
         }
 
+
+
+        private boolean isCollisionDetected(Pipe pipe) {
+
+            if (pipe == null) {
+                Log.d("SceneView","Pipe must not be null");
+                throw new IllegalArgumentException("Pipe mut be not null");
+            }
+
+            int spritesWidth = (int) (width * 1.7);
+            int spritesHight = (int) (height * 1.4);
+            Rect spriteRect = new Rect(x, y, spritesWidth, spritesHight);
+            Rect pipeRect = pipe.getPipeRect();
+
+
+            if (pipe.pipeType == pipe.pipeType.UPPER){
+                if (spriteRect.right > pipeRect.left && spriteRect.left < pipeRect.left && spriteRect.top < pipeRect.bottom){
+//                    Log.d("SceneView","COliisoin");
+                    return true;
+                }
+            }else{
+
+                if (spriteRect.right > pipeRect.left && spriteRect.left < pipeRect.left && spriteRect.top > pipeRect.top){
+//                    Log.d("SceneView","COliisoin");
+                    return true;
+                }
+            }
+
+            //Touched the ground - Fail
+            if (spriteRect.top > sceneView.getBottom()){
+//                    Log.d("SceneView","COliisoin");
+                return true;
+            }
+
+            return false;
+        }
+
+
+
+
+
+
+
         public void spriteTouched(){
             this.spriteTouched = true;
         }
@@ -215,9 +270,9 @@ public class SceneView extends View {
             }
 
 
-            if (y > sceneView.getBottom() || y < sceneView.getTop()){
-                //TODO: stop game - lose
-                y = (sceneView.getHeight() / 2) - (height / 2);
+            if ( y < sceneView.getTop()){
+//                y = (sceneView.getHeight() / 2) - (height / 2);
+                y = sceneView.getTop() + 50;
             }
 
 
