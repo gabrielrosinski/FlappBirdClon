@@ -24,24 +24,18 @@ public class SceneView extends View {
     Bitmap topPipeBitmap;
     Bitmap bottomPipeBitmap;
     Rect[] frames = new Rect[NUM_FRAMES];
-    int naiveFrameNam;
-    RectF dst0 = new RectF();
     private int mViewHeight;
     private int mViewWidth;
 
     private Sprite sprite;
-    private Pipe topPipe;
-    private Pipe bottomPipe;
     Rect src;
     Rect dst;
     Random randomGenerator;
-    float maxTubeOffest;
-    float tubeOffSet;
-    int numberOfTubes = 4;
+    int numberOfTubes = 2;
     int distanceBetweenTubes;
-
     Pipe[] upperPipes = new Pipe[numberOfTubes];
     Pipe[] bottomPipes = new Pipe[numberOfTubes];
+    Boolean tubesCreated = false;
 
 
 
@@ -73,7 +67,6 @@ public class SceneView extends View {
         randomGenerator = new Random();
 
 
-        tubeCreator();
     }
 
     private void createBackgroundImage(int w, int h) {
@@ -107,10 +100,13 @@ public class SceneView extends View {
 
         canvas.drawBitmap(bgBitmap,src, dst,null);
 
-        sprite.draw(canvas);
+        if (!tubesCreated){
+            tubesCreated = true;
+            tubeCreator(canvas);
+        }
 
-//        topPipe.draw(canvas);
-//        bottomPipe.draw(canvas);
+
+        sprite.draw(canvas);
 
         for (int i = 0; i < numberOfTubes; i++) {
             upperPipes[i].draw(canvas);
@@ -118,8 +114,7 @@ public class SceneView extends View {
         }
 
 
-        //TODO: add collision detection later for the sprite
-
+        //TODO: add collision detection later for the sprite with pipes and floore
 
 
 
@@ -147,27 +142,23 @@ public class SceneView extends View {
 
 
 
-    private void tubeCreator(){
+    private void tubeCreator(Canvas canvas){
 
         float randomNum;
-
 
         for (int i = 0; i < numberOfTubes; i++){
 
             randomNum = randomGenerator.nextFloat();
+            distanceBetweenTubes = canvas.getWidth() / 2 * i;
 
-            Pipe topPipe = new Pipe(this,topPipeBitmap, randomNum);
-//        topPipe = new Pipe(this,topPipeBitmap);
-            topPipe.pipeNum = i;
+
+            Pipe topPipe = new Pipe(this,topPipeBitmap, randomNum,i);
             topPipe.pipeType = Pipe.PipeType.UPPER;
             upperPipes[i] = topPipe;
 
 
-            Pipe bottomPipe = new Pipe(this,bottomPipeBitmap, randomNum);
-
-//        bottomPipe = new Pipe(this,topPipeBitmap);
+            Pipe bottomPipe = new Pipe(this,bottomPipeBitmap, randomNum,i);
             bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
-            bottomPipe.pipeNum = i;
             bottomPipes[i] = bottomPipe;
         }
 

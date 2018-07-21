@@ -23,24 +23,28 @@ public class Pipe {
     public int space = 350;
 
     private int pipeWidth = 170;
-    public int pipeNum;
-    public int distanceFromOtherTube;
+    private float distanceFromOtherTube;
+    private int pipeXOffSet;
+    private int pipeNum;
     private Rect src;
     private Rect dst;
 
     private float tubeOffset;
 
-    public Pipe(SceneView sceneView, Bitmap bitmap,float randomNum) {
+    public Pipe(SceneView sceneView, Bitmap bitmap,float randomNum, int pipeNum) {
+
         this.sceneView = sceneView;
         this.bitmap = bitmap;
 
         src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
-
         this.width =  pipeWidth;
         this.height = bitmap.getHeight();
+        this.pipeNum = pipeNum;
 
-        this.x = sceneView.getWidth() + pipeNum * (sceneView.getWidth());//sceneView.getRight() + distanceFromOtherTube;
+        this.distanceFromOtherTube = (sceneView.getWidth() / 2) + (sceneView.getWidth() / 4) ;
+
+        this.pipeXOffSet = sceneView.getWidth() + Math.round(pipeNum * distanceFromOtherTube);
 
         tubeOffset = (randomNum - 0.5f) * (sceneView.getHeight() - space - 200);
 
@@ -56,21 +60,42 @@ public class Pipe {
 //        }
 //        x = x + xSpeed;
 
-        if (x < sceneView.getLeft() - width) {
-            this.x = sceneView.getWidth() + pipeNum * (sceneView.getWidth());//sceneView.getRight() + distanceFromOtherTube;
-        }
+
+
+//        if (x < sceneView.getLeft() - width) {
+////            this.x = sceneView.getWidth() + pipeNum * (sceneView.getWidth());//sceneView.getRight() + distanceFromOtherTube;
+////            this.x = sceneView.getWidth()  + (this.pipeNum * sceneView.getWidth() / 2);
+//            this.x = sceneView.getWidth()  + (pipeNum * distanceFromOtherTube);
+//        }
+//        xSpeed = -5;
+//        x = x + xSpeed;
+
         xSpeed = -5;
-        x = x + xSpeed;
+
+        int distanceOffSet = pipeNum * (sceneView.getWidth() / 2);
+        if(pipeXOffSet <  sceneView.getLeft() - width){
+            pipeXOffSet = sceneView.getWidth() + (sceneView.getWidth() / 2) ;//+ (distanceOffSet);//(int)(pipeNum * distanceFromOtherTube);
+            pipeXOffSet = pipeXOffSet + xSpeed;
+        }else{
+            pipeXOffSet = pipeXOffSet + xSpeed;
+        }
+
 
     }
 
     public void draw(Canvas canvas) {
         update();
 
+//        if(this.pipeType == PipeType.UPPER){
+//            dst = new Rect(this.x, 0, x + this.width , (sceneView.getHeight() / 2) - (space / 2) + (int)tubeOffset);
+//        }else {
+//            dst = new Rect(this.x, (sceneView.getHeight() / 2)  + (space / 2) + (int)tubeOffset, x + this.width , sceneView.getBottom());
+//        }
+
         if(this.pipeType == PipeType.UPPER){
-            dst = new Rect(this.x, 0, x + this.width , (sceneView.getHeight() / 2) - (space / 2) + (int)tubeOffset);
+            dst = new Rect(pipeXOffSet, 0, pipeXOffSet + this.width , (sceneView.getHeight() / 2) - (space / 2) + (int)tubeOffset);
         }else {
-            dst = new Rect(this.x, (sceneView.getHeight() / 2)  + (space / 2) + (int)tubeOffset, x + this.width , sceneView.getBottom());
+            dst = new Rect(pipeXOffSet, (sceneView.getHeight() / 2)  + (space / 2) + (int)tubeOffset, pipeXOffSet + this.width , sceneView.getBottom());
         }
 
         canvas.drawBitmap(bitmap, src, dst, null);
