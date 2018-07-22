@@ -1,13 +1,12 @@
 package com.gabriel.flappbirdclon;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.support.annotation.Nullable;
 
 import android.text.Layout;
@@ -17,7 +16,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+
 
 import com.gabriel.flappbirdclon.Workers.Sprite;
 
@@ -50,25 +50,54 @@ public class SceneView extends View {
     private int score = 0;
     private int maxPointsToWin = 5;
     private int scoringTube = 0;
+    private Boolean gameStateInGame = true;
 
     private TextPaint scoreText;
     private StaticLayout scoreTextStyle;
 
+    //Interface to the game activity
+    private GameEventListener gameEventListener;
+
+
+
+
+    private final Context context;
+
 
     public SceneView(Context context) {
         super(context);
+        this.context = context;
         init();
     }
 
     public SceneView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-//        scoreTextView = (TextView) findViewById(R.id.scoreTextView);
+        this.context = context;
         init();
     }
 
     public SceneView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         init();
+    }
+
+
+    public interface GameEventListener {
+        public void onEventOccurred();
+    }
+
+
+
+    public void setEventListener(GameEventListener gameEventListener) {
+        this.gameEventListener = gameEventListener;
+    }
+
+    protected void endGameEvent() {
+
+        if (gameEventListener != null) {
+            gameEventListener.onEventOccurred();
+        }
     }
 
 
@@ -78,14 +107,10 @@ public class SceneView extends View {
         sprite = new Sprite(this,spritesBitmap);
 
         topPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.toptube);
-        bottomPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bottomtube); //TODO: change this bottomtube
-
-//        distanceBetweenTubes = this.getWidth() / 2;
+        bottomPipeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bottomtube);
 
         randomGenerator = new Random();
 
-
-        Log.d("SceneView", "PLAYER LOST");
         initLabelView();
 
     }
@@ -121,52 +146,52 @@ public class SceneView extends View {
 
         canvas.drawBitmap(bgBitmap,src, dst,null);
 
-        if (!tubesCreated){
-            tubesCreated = true;
-            tubeCreator(canvas);
-        }
-
-
-        sprite.draw(canvas);
-
-        for (int i = 0; i < numberOfTubes; i++) {
-            upperPipes[i].draw(canvas);
-            bottomPipes[i].draw(canvas);
-
-        }
-
-
-        //TODO: add collision detection later for the sprite with pipes and floore
-        //COLISON DETECTION
-        for (int i = 0; i < numberOfTubes; i++) {
-           if (sprite.isCollisionDetected(upperPipes[i])){
-               Log.d("SceneView", "PLAYER LOST");
-           }
-           if (sprite.isCollisionDetected(bottomPipes[i])){
-                Log.d("SceneView", "PLAYER LOST");
-           }
-        }
-
-
-
-        //SCORE
-        Pipe pipe = upperPipes[scoringTube];
-        if (pipe.getPipeX() < (canvas.getWidth() / 2) - pipe.getPipeWidth()){
-
-            this.score++;
-//            this.scoreTextView.setText(this.score);
-
-            if (scoringTube < numberOfTubes - 1){
-                this.scoringTube++;
-            }else{
-                scoringTube = 0;
+        if (gameStateInGame){
+            if (!tubesCreated){
+                tubesCreated = true;
+                tubeCreator(canvas);
             }
+
+
+            sprite.draw(canvas);
+
+            for (int i = 0; i < numberOfTubes; i++) {
+                upperPipes[i].draw(canvas);
+                bottomPipes[i].draw(canvas);
+
+            }
+
+            //COLISION DETECTION
+            for (int i = 0; i < numberOfTubes; i++) {
+                if (sprite.isCollisionDetected(upperPipes[i])){
+                    gameStateInGame = false;
+                    ((GameActivity) context).moveToEndGame();
+                }
+                if (sprite.isCollisionDetected(bottomPipes[i])){
+                    gameStateInGame = false;
+                    ((GameActivity) context).moveToEndGame();
+                }
+            }
+
+
+
+            //SCORE
+            Pipe pipe = upperPipes[scoringTube];
+            if (pipe.getPipeX() < (canvas.getWidth() / 2) - pipe.getPipeWidth()){
+
+                this.score++;
+
+                if (scoringTube < numberOfTubes - 1){
+                    this.scoringTube++;
+                }else{
+                    scoringTube = 0;
+                }
+            }
+
+            //Score Label
+            editScoreLabel();
+            scoreTextStyle.draw(canvas);
         }
-
-        //Score Label
-        editScoreLabel();
-        scoreTextStyle.draw(canvas);
-
 
         postInvalidateOnAnimation();
     }
@@ -179,13 +204,6 @@ public class SceneView extends View {
 
         editScoreLabel();
 
-        // New API alternate
-        //
-        // StaticLayout.Builder builder = StaticLayout.Builder.obtain(mText, 0, mText.length(), mTextPaint, width)
-        //        .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-        //        .setLineSpacing(1, 0) // multiplier, add
-        //        .setIncludePad(false);
-        // mStaticLayout = builder.build();
     }
 
     private void editScoreLabel(){
@@ -236,8 +254,7 @@ public class SceneView extends View {
             bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
             bottomPipes[i] = bottomPipe;
         }
-
+//        Log.d("dwa","DWa");
     }
-
 
 }
