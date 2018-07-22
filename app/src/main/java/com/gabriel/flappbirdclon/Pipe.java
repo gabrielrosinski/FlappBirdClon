@@ -66,16 +66,12 @@ public class Pipe {
 
         xSpeed = -5;
 
-//        int distanceOffSet = pipeNum * (sceneView.getWidth() / 2);
-
         if(pipeXOffSet <  sceneView.getLeft() - width){
             pipeXOffSet = sceneView.getWidth() + (sceneView.getWidth() / 2) ;
             pipeXOffSet = pipeXOffSet + xSpeed;
         }else{
             pipeXOffSet = pipeXOffSet + xSpeed;
         }
-
-
     }
 
     public void draw(Canvas canvas) {

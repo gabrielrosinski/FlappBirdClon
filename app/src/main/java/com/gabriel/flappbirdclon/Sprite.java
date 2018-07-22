@@ -1,4 +1,4 @@
-package com.gabriel.flappbirdclon.Workers;
+package com.gabriel.flappbirdclon;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -43,7 +43,7 @@ public class Sprite {
     }
 
 
-
+    //method to identefy if there was a collision between the sprite and the pipe
     public boolean isCollisionDetected(Pipe pipe) {
 
         if (pipe == null) {
@@ -59,20 +59,17 @@ public class Sprite {
 
         if (pipe.pipeType == pipe.pipeType.UPPER){
             if (spriteRect.right > pipeRect.left && spriteRect.left < pipeRect.left && spriteRect.top < pipeRect.bottom){
-//                    Log.d("SceneView","COliisoin");
                 return true;
             }
         }else{
 
             if (spriteRect.right > pipeRect.left && spriteRect.left < pipeRect.left && spriteRect.top > pipeRect.top){
-//                    Log.d("SceneView","COliisoin");
                 return true;
             }
         }
 
         //Touched the ground - Fail
         if (spriteRect.top > sceneView.getBottom()){
-//                    Log.d("SceneView","COliisoin");
             return true;
         }
 
@@ -85,7 +82,9 @@ public class Sprite {
     }
 
 
+    //method that updates Bird location
     private void update() {
+
         //this is to init the bird in the first position
         if (freshScene){
             x = (sceneView.getWidth() / 2) - (width / 4);
@@ -95,7 +94,6 @@ public class Sprite {
 
 
         if ( y < sceneView.getTop()){
-//                y = (sceneView.getHeight() / 2) - (height / 2);
             y = sceneView.getTop() + 50;
         }
 
@@ -118,6 +116,7 @@ public class Sprite {
         currentFrame = (currentFrame + 1) % BMP_COLUMNS;
     }
 
+    //method to draw the bird
     public void draw(Canvas canvas) {
 
         update();

@@ -1,8 +1,6 @@
 package com.gabriel.flappbirdclon;
 
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,13 +11,9 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
-
-import com.gabriel.flappbirdclon.Workers.Sprite;
 
 import java.util.Random;
 
@@ -55,11 +49,6 @@ public class SceneView extends View {
     private TextPaint scoreText;
     private StaticLayout scoreTextStyle;
 
-    //Interface to the game activity
-    private GameEventListener gameEventListener;
-
-
-
 
     private final Context context;
 
@@ -83,24 +72,6 @@ public class SceneView extends View {
     }
 
 
-    public interface GameEventListener {
-        public void onEventOccurred();
-    }
-
-
-
-    public void setEventListener(GameEventListener gameEventListener) {
-        this.gameEventListener = gameEventListener;
-    }
-
-    protected void endGameEvent() {
-
-        if (gameEventListener != null) {
-            gameEventListener.onEventOccurred();
-        }
-    }
-
-
     private void init(){
 
         spritesBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.birdmap);
@@ -115,9 +86,8 @@ public class SceneView extends View {
 
     }
 
-
+    //setup background image
     private void createBackgroundImage(int w, int h) {
-
 
         if (bgBitmap != null) {
             bgBitmap.recycle();
@@ -155,6 +125,7 @@ public class SceneView extends View {
 
             sprite.draw(canvas);
 
+            //draw each pipi
             for (int i = 0; i < numberOfTubes; i++) {
                 upperPipes[i].draw(canvas);
                 bottomPipes[i].draw(canvas);
@@ -175,7 +146,7 @@ public class SceneView extends View {
 
 
 
-            //SCORE
+            //Update score
             Pipe pipe = upperPipes[scoringTube];
             if (pipe.getPipeX() < (canvas.getWidth() / 2) - pipe.getPipeWidth()){
 
@@ -188,7 +159,7 @@ public class SceneView extends View {
                 }
             }
 
-            //Score Label
+            //Score Label edit
             editScoreLabel();
             scoreTextStyle.draw(canvas);
         }
@@ -196,6 +167,7 @@ public class SceneView extends View {
         postInvalidateOnAnimation();
     }
 
+    //init score label
     private void initLabelView() {
         scoreText = new TextPaint();
         scoreText.setAntiAlias(true);
@@ -206,12 +178,12 @@ public class SceneView extends View {
 
     }
 
+    //update score label
     private void editScoreLabel(){
         // default to a single line of text
         String scoreStr = "Score: " + String.valueOf(score);
         int width = (int) scoreText.measureText(scoreStr);
         scoreTextStyle = new StaticLayout(scoreStr, scoreText, (int) width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
-
     }
 
 
@@ -234,7 +206,7 @@ public class SceneView extends View {
     }
 
 
-
+    //method for tube inital creation
     private void tubeCreator(Canvas canvas){
 
         float randomNum;
@@ -254,7 +226,6 @@ public class SceneView extends View {
             bottomPipe.pipeType = Pipe.PipeType.BOTTOM;
             bottomPipes[i] = bottomPipe;
         }
-//        Log.d("dwa","DWa");
     }
 
 }

@@ -58,6 +58,7 @@ public class Utillity {
     }
 
 
+    //Methods that deal with apps background music
     public static void toggleMusic(){
         AsyncHandler.post(musicPlayer);
     }
@@ -72,6 +73,8 @@ public class Utillity {
         musicPlayer.mPlayer.setVolume(soundVolume, soundVolume);
     }
 
+
+    //Methods that dael with apps SFX
     public static void playSFXbyID(int id){
         soundEffectsUtil.play(id);
     }
@@ -83,14 +86,12 @@ public class Utillity {
             soundEffectsUtil.soundPool.setVolume(streamID, 0f, 0f);
         }
     }
-//    public static void muteSFX(){
-//        soundEffectsUtil.soundPool.set
-//    }
 
+
+    //Methods that deal with apps shared pref
     public static SharedPreferences getSharedPref(){
         return sharedPreferences;
     }
-
     public static SharedPreferences.Editor getSharedPrefEdit(){
         return preferencesEditor;
     }

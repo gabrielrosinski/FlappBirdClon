@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+        //Button clicked to start new game
         Button startGameBtn = findViewById(R.id.startBtn);
 
         startGameBtn.setOnClickListener(new View.OnClickListener(){
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //button clicked to go to the settings
         Button settingsBtn = findViewById(R.id.settingsBtn);
 
         settingsBtn.setOnClickListener(new View.OnClickListener(){
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //button clicked to go to game instructions
         Button instructionBtn = findViewById(R.id.instructionBtn);
 
         instructionBtn.setOnClickListener(new View.OnClickListener(){

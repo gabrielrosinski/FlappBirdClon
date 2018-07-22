@@ -19,7 +19,7 @@ public class GameOverActivity extends AppCompatActivity {
         Utillity.hideSystemUI(this);
 
 
-        //Play again btn
+        //Button clicked to play again
         Button playAgainBtn = findViewById(R.id.playAgainBtn);
 
         playAgainBtn.setOnClickListener(new View.OnClickListener(){
@@ -35,6 +35,9 @@ public class GameOverActivity extends AppCompatActivity {
             }
         });
 
+
+
+        //Button clicked to open main menu
         Button mainMenuBtn = findViewById(R.id.mainMenuBtn);
 
         mainMenuBtn.setOnClickListener(new View.OnClickListener(){
