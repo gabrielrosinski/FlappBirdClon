@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "336528688314",
+    "firebase_url": "https://flappybirdio-c3d5f.firebaseio.com",
+    "project_id": "flappybirdio-c3d5f",
+    "storage_bucket": "flappybirdio-c3d5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336528688314:android:2bd81c2346ed2551",
+        "android_client_info": {
+          "package_name": "com.gabriel.flappbirdclon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336528688314-vu05kc53u9t0tupcvubghkk5fd1q2t7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gabriel.flappbirdclon",
+            "certificate_hash": "83bcc46665094aeb7db79580810947959d0e9b3c"
+          }
+        },
+        {
+          "client_id": "336528688314-b4shrba41v0ggq45atvikk9rccbfdrbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY06I3-RmlWYmoiegNjrWFU8h-XpaUbJg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336528688314-b4shrba41v0ggq45atvikk9rccbfdrbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
