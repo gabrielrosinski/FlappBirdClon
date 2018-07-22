@@ -9,4 +9,4 @@ The player need to avoid obstacles to achieve score points.
 
 Anyone can play this game !
 
-<img src="/images/icon2.png" width="512"> 
+<img src="/images/icon2.jpg" width="512"> 
