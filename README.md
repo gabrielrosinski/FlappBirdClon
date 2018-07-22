@@ -12,4 +12,4 @@ Anyone can play this game !
 <img src="/images/icon2.jpg" width="512"> 
 <img src="/images/Screenshot1.png" width="1080">
 <img src="/images/Screenshot2.png" width="1080">
-<img src="/images/featureGraphic2.png" width="1024">
+<img src="/images/featureGraphic2.jpg" width="1024">
