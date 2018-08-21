@@ -48,7 +48,7 @@ public class MusicRunnable implements Runnable, MediaPlayer.OnCompletionListener
             musicIsPlaying = false;
         } else {
             if (mPlayer == null) {
-                mPlayer = MediaPlayer.create(appContext, R.raw.nobody_nome);
+                mPlayer = MediaPlayer.create(appContext, R.raw.bgmusic);
                 mPlayer.start();
                 mPlayer.setOnCompletionListener(this); // MediaPlayer.OnCompletionListener
             } else {
