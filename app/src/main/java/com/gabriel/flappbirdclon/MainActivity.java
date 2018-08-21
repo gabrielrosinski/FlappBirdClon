@@ -78,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
+
+        //button clicked to go to game about page
+        Button aboutBtn = findViewById(R.id.aboutBtn);
+
+        aboutBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+                startActivity(intent, options.toBundle());
+            }
+        });
     }
 
     @Override
