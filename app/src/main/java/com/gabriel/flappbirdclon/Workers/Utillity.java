@@ -63,6 +63,13 @@ public class Utillity {
         AsyncHandler.post(musicPlayer);
     }
 
+//    public static void stopMusic(){
+//        AsyncHandler.post(musicPlayer.stopMusic());
+//    }
+//    public static void startMusic(){
+//        AsyncHandler.post(musicPlayer.startMusic());
+//    }
+
     public static boolean isBackgroundMusicON(){
         return musicPlayer.isMusicIsPlaying();
     }

@@ -34,6 +34,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         Utillity.hideSystemUI(this);
 
+        if (!Utillity.isBackgroundMusicON()){
+            Utillity.toggleMusic();
+        }
+
 
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
 
@@ -110,6 +114,34 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if(!Utillity.isBackgroundMusicON()){
+            Utillity.toggleMusic();
+        }
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if(!Utillity.isBackgroundMusicON()){
+            Utillity.toggleMusic();
+        }
+        Utillity.hideSystemUI(this);
+
+    }
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (Utillity.isBackgroundMusicON()){
+            Utillity.toggleMusic();
+        }
     }
 
 

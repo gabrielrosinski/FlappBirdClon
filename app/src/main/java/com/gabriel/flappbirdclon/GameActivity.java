@@ -17,9 +17,24 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
+        Utillity.toggleMusic();
+        Utillity.hideSystemUI(this);
+    }
 
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Utillity.toggleMusic();
         Utillity.hideSystemUI(this);
 
+    }
+
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Utillity.toggleMusic();
+        Utillity.hideSystemUI(this);
     }
 
 

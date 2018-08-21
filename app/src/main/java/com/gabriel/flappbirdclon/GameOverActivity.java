@@ -16,6 +16,7 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
 
+        Utillity.toggleMusic();
         Utillity.hideSystemUI(this);
 
 
@@ -53,4 +54,27 @@ public class GameOverActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Utillity.toggleMusic();
+        Utillity.hideSystemUI(this);
+
+    }
+
+
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+//        Utillity.toggleMusic();
+//    }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Utillity.toggleMusic();
+    }
+
 }

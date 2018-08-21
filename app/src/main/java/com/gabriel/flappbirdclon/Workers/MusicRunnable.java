@@ -64,7 +64,6 @@ public class MusicRunnable implements Runnable, MediaPlayer.OnCompletionListener
 
     }
 
-
     public void setVoliume(int volume){
         mPlayer.setVolume(volume,volume);
     }
